@@ -1,0 +1,150 @@
+@import url("https://fonts.googleapis.com/css?family=Merriweather:300,700,300italic,700italic|Source+Sans+Pro:900");
+
+/* Basic styles for the buttons container */
+.buttons-container {
+    display: flex;
+    flex-direction: column; /* Stack the buttons vertically */
+    gap: 10px; /* Space between buttons */
+}
+
+.form-container {
+    width: 60%;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-button,
+.logout-button,
+.submit{
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: #2196F3;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+    width: 15%; /* Make buttons span the full width */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.nav-button:hover,
+.logout-button:hover
+{
+    background-color: #2196F3;
+}
+
+.addTransaction {
+
+}
+
+.expense {
+    color: white;
+    background-color: #dc3545; /* Red for Expense */
+}
+
+.income {
+    color: white;
+    background-color: #28a745; /* Green for Income */
+}
+
+submit{
+    background-color: #2196F3;
+}
+
+form button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: white;
+    font-size: 16px;
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #c82333;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+/* Navigation */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+}
+
+nav ul li a:hover {
+    background-color: #0056b3;
+}
+
+h1, h2, th, td, label, .dashboard-content {
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+}
+
+label {
+    display: inline-block;
+    width: 120px; /* Increased label width for better alignment */
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+input, option, .date, .tag, .type {
+    padding: 5px 10px;
+    width: 110px;
+}
+
+input, select {
+    padding: 8px 10px;
+    width: calc(100% - 140px); /* Subtract label width + padding for consistent sizing */
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px; /* Add margin between inputs */
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus {
+    border-color: #007bff;
+    background-color: #f0faff;
+    outline: none;
+}

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
+    <!-- Add custom styles for layout -->
+    <style>
+        /* Reset body margin and padding */
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh; /* Ensure it fills the screen */
+            flex-direction: row;
+            overflow: hidden;
+        }
+
+        /* Container for the whole layout */
+        .container {
+            display: flex;
+            flex: 1; /* Take the full height and width of the body */
+        }
+
+        /* Left-side navigation */
+        .nav-container {
+            width: 15%;
+            background-color: #f4f4f4;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Make sure the nav panel takes the full height */
+            overflow-y: auto; /* Ensure the nav doesn't overflow vertically */
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%; /* Make sure it takes the full width */
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Make buttons take the full width of the nav container */
+        .nav-button {
+            text-decoration: none;
+            padding: 10px;
+            background-color: #2196F3;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .nav-button:hover {
+            background-color: #1976d2;
+        }
+
+        /* Right-side content */
+        .overview-container {
+            width: 85%;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            height: 100vh; /* Ensure the content fills the screen vertically */
+            background-color: #fff;
+        }
+
+        /* Logout button styling */
+        .logout-button {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .logout-button:hover {
+            background-color: darkred;
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Navigation Panel -->
+    <div class="nav-container">
+        <h3>Navigation</h3>
+        <!-- Navigation Buttons -->
+        <div class="buttons-container">
+            <a class="nav-button" th:href="@{/overview}">Budget Overview</a>
+            <a class="nav-button" th:href="@{/transactions/add}">Record a One-Time Transaction</a>
+            <a class="nav-button" th:href="@{/recurring-transactions/add}">Record a Recurring Transaction</a>
+<!--            <a class="nav-button" th:href="@{/transactions/list}">Remove a Transaction</a>-->
+            <a class="nav-button" th:href="@{/investments}">Investments Overview</a>
+            <a class="nav-button" th:href="@{/investments/add}">Add an Investment</a>
+        </div>
+        <br>
+        <!-- Logout Form -->
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </div>
+
+    <!-- Overview Content -->
+    <div class="overview-container">
+        <h1>Hello, <span th:text="${username}">Username</span>!</h1>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <p>Your account at glance</p>
+        </div>
+
+        <!-- Budget Overview Section -->
+        <h2>Budget Overview</h2>
+
+        <!-- Display Regular Transactions -->
+        <h3>Regular Transactions</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="transaction : ${dashboard.transactions}">
+                <td th:text="${transaction.description}"></td>
+                <td th:text="${transaction.amount}"></td>
+                <td th:text="${transaction.type}"></td>
+                <td th:text="${transaction.date}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Display Recurring Transactions -->
+        <h3>Recurring Transactions</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Frequency</th>
+                <th>Income/Expense</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="recurringTransaction : ${dashboard.recurringTransactions}">
+                <td th:text="${recurringTransaction.description}"></td>
+                <td th:text="${recurringTransaction.amount}"></td>
+                <td th:text="${recurringTransaction.frequency}"></td>
+                <td th:text="${recurringTransaction.type}"
+                    th:class="${recurringTransaction.type == 'EXPENSE' ? 'expense' : (recurringTransaction.type == 'INCOME' ? 'income' : '')}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Display balance and positive/negative status -->
+        <h3>Monthly Budget</h3>
+        <!-- Positive balance message -->
+        <p th:if="${dashboard.balance.compareTo(0) > 0}"
+           style="color: green; font-weight: bold;">
+            After recurring expenses and income you have $<span th:text="${dashboard.balance}"></span>
+        </p>
+
+        <!-- Negative balance message -->
+        <p th:if="${dashboard.balance.compareTo(0) < 0}"
+           style="color: red; font-weight: bold;">
+            After recurring expenses and income you have $<span th:text="${dashboard.balance}"></span>
+        </p>
+
+        <!-- Zero balance message -->
+        <p th:if="${dashboard.balance.compareTo(0) == 0}"
+           style="color: gray;">
+            After recurring expenses and income you have $0
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

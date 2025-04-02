@@ -1,0 +1,19 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: PersonalFinanceTracker
+  datasource:
+    url: jdbc:mysql://localhost:3306/finance_db
+    username: root
+    password: root123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+alpha-vantage:
+  api-key: OSSS24OEY57E4B86
+
+#7OX2E24P3JKBA22B
+#OSSS24OEY57E4B86

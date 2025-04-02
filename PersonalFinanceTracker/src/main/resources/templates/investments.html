@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investments</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+
+<h1>Your Investments</h1>
+
+<!-- Form to trigger the update of all investments -->
+<form action="#" th:action="@{/investments}" method="post">
+    <button type="submit" style="background-color: #4CBB17; color: white;">Update All Stock Prices</button>
+</form>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Ticker</th>
+        <th>Stock Name</th>
+        <th>Amount</th>
+        <th>Current Price</th>
+        <th>Value</th>
+        <th>Actions</th> <!-- New column for delete buttons -->
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Loop through investments and display their details -->
+    <tr th:each="investment : ${investments}">
+        <td th:text="${investment.ticker}"></td>
+        <td th:text="${investment.name}"></td>
+        <td th:text="${investment.quantity}"></td>
+        <td th:text="${investment.price}"></td>
+        <td th:text="${investment.currentValue}"></td>
+        <td>
+            <!-- Delete button -->
+            <form th:action="@{/investments/delete/{id}(id=${investment.id})}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<!-- Navigation Links -->
+<div class="buttons-container">
+    <a class="nav-button" href="/investments/add">Add an Investment</a>
+    <a class="nav-button" href="/overview">Budget Overview</a>
+    <a class="nav-button" href="/transactions/add">Record a One-Time Transaction</a>
+    <a class="nav-button" href="/recurring-transactions/add">Record a Recurring Transaction</a>
+    <a class="nav-button" href="/dashboard">Dashboard</a>
+</div>
+</body>
+</html>

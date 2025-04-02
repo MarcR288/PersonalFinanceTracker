@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction List</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
+</head>
+<body>
+<h1>All Transactions</h1>
+
+<!-- Display a list of all regular transactions -->
+<h2>Regular Transactions</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="transaction : ${transactions}">
+        <td th:text="${transaction.description}"></td>
+        <td th:text="${transaction.amount}"></td>
+        <td th:text="${transaction.type}"></td>
+        <td th:text="${transaction.date}"></td>
+        <td>
+            <!-- Form for deleting a regular transaction -->
+            <form th:action="@{/transactions/delete/{transactionId}(transactionId=${transaction.id})}" method="post">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this transaction?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Display a list of all recurring transactions -->
+<h2>Recurring Transactions</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Type</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="recurringTransaction : ${recurringTransactions}">
+        <td th:text="${recurringTransaction.description}"></td>
+        <td th:text="${recurringTransaction.amount}"></td>
+        <td th:text="${recurringTransaction.type}"></td>
+        <td>
+            <!-- Form for deleting a recurring transaction -->
+            <form th:action="@{/recurring-transactions/delete/{recTransactionId}(recTransactionId=${recurringTransaction.id})}" method="post">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this recurring transaction?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<br>
+<!-- Navigation Links -->
+<div class="buttons-container">
+    <a class="nav-button" href="/transactions/add">Add Transaction</a>
+    <a class="nav-button" href="/recurring-transactions/add">Add Recurring Transaction</a>
+    <a class="nav-button" href="/overview">Budget Overview</a>
+    <a class="nav-button" href="/dashboard">Dashboard</a>
+</div>
+</body>
+</html>
