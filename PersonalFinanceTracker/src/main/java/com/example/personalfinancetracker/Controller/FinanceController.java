@@ -28,17 +28,13 @@ public class FinanceController {
         this.recurringTransactionService = recurringTransactionService;
     }
 
+    // Get mapping for dashbaord with overview
     @GetMapping("/dashboard")
     public String userDashboard(Model model) {
-        // Get the current User object
         User user = userService.getCurrentUser();
-
-        // Extract the username from the User object
+        // Extract the username from the User object and add the username to the model
         String username = user.getUsername();
-
-        // Add the username to the model
         model.addAttribute("username", username);
-
         model.addAttribute("user", user);
 
         List<Transaction> transactions = transactionService.getTransactionsByUser(user.getId());
@@ -50,14 +46,13 @@ public class FinanceController {
 
         // Sum income and expenses using BigDecimal for precision
         for (RecurringTransaction recurringTransaction : recurringTransactions) {
-            BigDecimal amount = recurringTransaction.getAmount(); // Already a BigDecimal, no need to convert
+            BigDecimal amount = recurringTransaction.getAmount();
             if (recurringTransaction.getType() == TransactionType.INCOME) {
-                totalIncome = totalIncome.add(amount); // Add to income
+                totalIncome = totalIncome.add(amount);
             } else if (recurringTransaction.getType() == TransactionType.EXPENSE) {
-                totalExpense = totalExpense.add(amount); // Add to expense
+                totalExpense = totalExpense.add(amount);
             }
         }
-
 
         // Calculate balance as the difference between income and expense
         BigDecimal balance = totalIncome.subtract(totalExpense);
@@ -76,12 +71,14 @@ public class FinanceController {
         return "dashboard";
     }
 
-    @GetMapping("/transactions")
-    public String transactions(Model model) {
-        User user = userService.getCurrentUser();
-        return "transactions";
-    }
+//    // Shows the transactions
+//    @GetMapping("/transactions")
+//    public String transactions(Model model) {
+//        User user = userService.getCurrentUser();
+//        return "transactions";
+//    }
 
+    // Shows the Add transaction form
     @GetMapping("/transactions/add")
     public String addTransaction(Model model) {
         User user = userService.getCurrentUser();
@@ -92,6 +89,7 @@ public class FinanceController {
         return "transactions";
     }
 
+    // Records a One-Time transaction
     @PostMapping("/transactions/add")
     public String addTransaction(@ModelAttribute Transaction transaction, Model model) {
         User currentUser = userService.getCurrentUser();
@@ -99,17 +97,18 @@ public class FinanceController {
         return "redirect:/dashboard";
     }
 
+    // Shows the form to add a recurring transaction
     @GetMapping("/recurring-transactions/add")
     public String recurringTransactions(Model model) {
         User user = userService.getCurrentUser();
         model.addAttribute("recurringTransaction", new RecurringTransaction());
-
         model.addAttribute("transactionTypes", TransactionType.values());
         model.addAttribute("ExpenseTags", ExpenseTag.values());
         model.addAttribute("RecurrenceFrequency", RecurrenceFrequency.values());
         return "recurringTransactions";
     }
 
+    // Records a recurring transaction
     @PostMapping("/recurring-transactions/add")
     public String addRecurringTransaction(@ModelAttribute RecurringTransaction recurringTransaction, Model model) {
         User currentUser = userService.getCurrentUser();
@@ -117,6 +116,7 @@ public class FinanceController {
         return "redirect:/dashboard";
     }
 
+    // Get mapping for Overview
     @GetMapping("/overview")
     public String overview(Model model) {
         User user = userService.getCurrentUser();
@@ -139,7 +139,6 @@ public class FinanceController {
             }
         }
 
-
         // Calculate balance as the difference between income and expense
         BigDecimal balance = totalIncome.subtract(totalExpense);
 
@@ -158,6 +157,7 @@ public class FinanceController {
         return "overview"; // Return the 'overview.html' Thymeleaf template
     }
 
+//    // Get mapping for transactions list - No longer needed, added capability to delete a transaction at /overview
 //    @GetMapping("/transactions/list")
 //    public String transactionsList(Model model) {
 //        User user = userService.getCurrentUser();
@@ -169,12 +169,14 @@ public class FinanceController {
 //        return "transactionsList";
 //    }
 
+    // Deletes a transaction
     @PostMapping("/transactions/delete/{transactionId}")
     public String deleteTransaction(@PathVariable("transactionId") int transactionId) {
         transactionService.deleteTransaction(transactionId); // Delete the regular transaction
         return "redirect:/overview"; // Redirect to the list after deletion
     }
 
+    // Deletes a recurring-transaction
     @PostMapping("/recurring-transactions/delete/{recTransactionId}")
     public String deleteRecurringTransaction(@PathVariable("recTransactionId") int recTransactionId) {
         recurringTransactionService.deleteRecurringTransaction(recTransactionId); // Delete the recurring transaction

@@ -22,10 +22,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    // Return an Optional User by username
     public Optional<User> findByUsername(String username) {
         return Optional.ofNullable(userRepository.findByUsername(username));
     }
 
+    // Returns the wrapped user object
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

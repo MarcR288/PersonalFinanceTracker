@@ -1,6 +1,5 @@
 package com.example.personalfinancetracker.Service;
 
-import com.example.personalfinancetracker.model.Investment;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,11 +14,11 @@ public class StockPriceService {
     @Value("${alpha-vantage.api-key}")
     private String apikey;
 
+    //alpha vantage URL
     private static final String BASE_URL = "https://www.alphavantage.co/query";
 
 
     public BigDecimal getCurrentStockPrice(String ticker) {
-        // Example of calling Alpha Vantage API to fetch stock price
         String url = String.format("%s?function=TIME_SERIES_INTRADAY&symbol=%s&interval=1min&apikey=%s", BASE_URL, ticker, apikey);
 
         RestTemplate restTemplate = new RestTemplate();
@@ -27,8 +26,7 @@ public class StockPriceService {
             // Call the API to fetch the stock data
             String response = restTemplate.getForObject(url, String.class);
 
-            // Parse the response (you may need to use a library like Jackson to map it into an object)
-            // For simplicity, assume we extract the current price from the response
+            // Parse the response
             BigDecimal currentPrice = parsePriceFromResponse(response);
             System.out.println("Current price: $" + currentPrice);
             System.out.println("Raw response: " + response);
@@ -63,19 +61,8 @@ public class StockPriceService {
             System.err.println("Error parsing stock price from API response");
             e.printStackTrace();
         }
-
-        return BigDecimal.ZERO;  // Return 0 if we can't find the price
-    }
-
-    public void updateInvestmentPrice(Investment investment) {
-        // Get the current price of the stock
-        BigDecimal currentPrice = getCurrentStockPrice(investment.getTicker());
-
-        // Update the current price of the investment
-        investment.setCurrentValue(currentPrice.multiply(investment.getQuantity()));
-
-        // Save the updated investment to the database (assuming you have an InvestmentRepository)
-        // investmentRepository.save(investment);
+        // Return 0 if we can't find the price
+        return BigDecimal.ZERO;
     }
 
 }

@@ -1,8 +1,8 @@
 package com.example.personalfinancetracker.model;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
+
 
 @Entity
 public class Investment {

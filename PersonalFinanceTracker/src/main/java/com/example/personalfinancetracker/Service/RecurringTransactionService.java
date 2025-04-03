@@ -20,15 +20,18 @@ public class RecurringTransactionService {
         this.recurringTransactionRepository = recurringTransactionRepository;
     }
 
+    // Save a new recurring-transaction
     public void addRecurringTransaction(User user, RecurringTransaction recurringTransaction) {
         recurringTransaction.setUser(user);
         recurringTransactionRepository.save(recurringTransaction);
     }
 
+    // Returns a list of all recurring transactions for a user
     public List<RecurringTransaction> getRecurringTransactionByUser(int userId) {
         return recurringTransactionRepository.findByUserId(userId);
     }
 
+    // Deletes a recurring transaction
     public void deleteRecurringTransaction(int recurringTransactionId) {
         recurringTransactionRepository.deleteById(recurringTransactionId);
     }

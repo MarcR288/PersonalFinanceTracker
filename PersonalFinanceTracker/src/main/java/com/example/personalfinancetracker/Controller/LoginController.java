@@ -14,32 +14,32 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class LoginController {
 
-
     private final UserService userService;
-
-
 
     public LoginController(UserService userService) {
         this.userService = userService;
     }
 
-
+    // Login Form
     @GetMapping("/login")
     public String login(){
         return "login";
     }
 
+    // Registration Form
     @GetMapping("/register")
     public String register(){
         return "register";
     }
 
+    // Authenticate login
     @PostMapping("login")
     public String login(@RequestParam String username, @RequestParam String password){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return "redirect:/dashboard";
     }
 
+    // Logs out a user
     @PostMapping("/logout")
     public String logout(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -47,6 +47,7 @@ public class LoginController {
         return "redirect:/login";
     }
 
+    // Saves a new user to the db
     @PostMapping("/register")
     public String registerAccount(@RequestParam String username,
                                   @RequestParam String password,
@@ -68,8 +69,6 @@ public class LoginController {
             System.out.println("User saved: " + username + " " + password);
             return "redirect:/login"; // Redirect to login after successful registration
         }
-
-        // If passwords don't match, return to the registration page
         return "redirect:/register";
     }
 

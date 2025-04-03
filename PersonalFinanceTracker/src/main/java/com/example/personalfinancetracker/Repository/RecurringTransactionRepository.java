@@ -10,9 +10,7 @@ import java.util.List;
 
 @Repository
 public interface RecurringTransactionRepository extends JpaRepository<RecurringTransaction, Integer> {
-
     List<RecurringTransaction> findByUserId(int userId);
-
     // Find transactions by type (income or expense)
     List<RecurringTransaction> findByType(TransactionType type);
 }

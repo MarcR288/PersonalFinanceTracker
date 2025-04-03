@@ -18,20 +18,24 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
+    // Add a transaction
     public Transaction addTransaction(User user, Transaction transaction) {
         // Ensure the transaction is associated with the correct user
         transaction.setUser(user);
         return transactionRepository.save(transaction);
     }
 
+    // Return a list of transactions of a user
     public List<Transaction> getTransactionsByUser(int userId) {
         return transactionRepository.findByUserId(userId);
     }
 
+    // Find transactions by Type - Not implemented
     public List<Transaction> getTransactionsByType(TransactionType type) {
         return transactionRepository.findByType(type);
     }
 
+    // Delete a transaction
     public void deleteTransaction(int id) {
         transactionRepository.deleteById(id);
     }

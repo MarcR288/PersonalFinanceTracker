@@ -12,9 +12,7 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
     // Find transactions by user
     List<Transaction> findByUserId(int userId);
-
     // Find transactions by type (income or expense)
     List<Transaction> findByType(TransactionType type);
-
     List<Transaction> findByUser(User user);
 }

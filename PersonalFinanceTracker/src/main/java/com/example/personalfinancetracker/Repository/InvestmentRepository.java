@@ -8,8 +8,5 @@ import java.util.List;
 
 @Repository
 public interface InvestmentRepository extends JpaRepository<Investment, Integer> {
-
     List<Investment> findByUserId(int userId);
-
-
 }

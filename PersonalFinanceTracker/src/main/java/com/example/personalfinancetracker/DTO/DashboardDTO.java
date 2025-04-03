@@ -8,10 +8,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class DashboardDTO {
+
     private List<Transaction> transactions;
     private List<RecurringTransaction> recurringTransactions;
-
-    // New field for balance
     private BigDecimal balance;
 
     // Constructor

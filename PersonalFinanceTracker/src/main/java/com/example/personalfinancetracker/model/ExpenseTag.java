@@ -1,5 +1,6 @@
 package com.example.personalfinancetracker.model;
 
+// Enum for various Expense Tags
 public enum ExpenseTag {
     HOME,
     UTILITIES,
